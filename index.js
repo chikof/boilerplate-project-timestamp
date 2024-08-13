@@ -44,6 +44,15 @@ function validDateMiddleware(req, res, done) {
   return res.json({ error: "Invalid date" });
 }
 
+app.get("/api/whoami", (req, res) => {
+  const { headers } = req;
+  return res.json({
+    ipaddress: headers['x-forwarded-for'],
+    language: headers['accept-language'],
+    software: headers['user-agent']
+  });
+});
+
 app.get("/api/:date?", validDateMiddleware, (req, res) => {
   const dateObject = parseDate(req.params.date);
 
