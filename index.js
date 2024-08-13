@@ -28,6 +28,15 @@ app.get("/api/hello", function(req, res) {
 function validDateMiddleware(req, res, done) {
   const { date } = req.params;
 
+  if (!date) {
+    const currentDate = new Date();
+
+    return res.json({
+      unix: currentDate.getTime(),
+      utc: currentDate.toUTCString()
+    });
+  }
+
   if (isValidDate(date)) {
     return done();
   }
@@ -35,7 +44,7 @@ function validDateMiddleware(req, res, done) {
   return res.json({ error: "Invalid date" });
 }
 
-app.get("/api/:date", validDateMiddleware, (req, res) => {
+app.get("/api/:date?", validDateMiddleware, (req, res) => {
   const dateObject = parseDate(req.params.date);
 
   return res.json({

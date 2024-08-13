@@ -6,8 +6,8 @@ function isValidDate(dateStr) {
 }
 
 function parseDate(dateStr) {
-  const timestamp = parseInt(dateStr, 10);
-  const str = isNaN(timestamp) ? dateStr : timestamp;
+  const timestamp = Number(dateStr);
+  const str = !isNaN(timestamp) ? timestamp : dateStr;
   return new Date(str);
 }
 
